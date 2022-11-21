@@ -34,12 +34,16 @@ def rotation(n, ndigits):
         x = rest + d * p
         yield x
 
-
+# can be sped up if we use a mark/visit scheme, and compute the triangle number of len of rotation sets.
 def solution(a, b):
     l = len_digits(a)
 
     total = 0
+    values = [x for x in range(a, b + 1)]
     for i in range(a, b + 1):
+
+        if values[i - a] == 0:
+            continue
 
         s = set(rotation(i, l))
         f = filter(lambda x: a <= x <= b and i < x, s)
@@ -47,8 +51,10 @@ def solution(a, b):
         c = 0
         for n in f:
             #print(n, end=' ')
-            total += 1
+            values[n - a] = 0
             c += 1
+
+        total += (c * (c + 1)) // 2
         # if c:
         #     print("%s (%s, %s)" % (i, c, total))
 
