@@ -4,6 +4,7 @@ import fileinput
 from pprint import pprint
 import unittest
 
+# https://codingcompetitions.withgoogle.com/codejam/round/0000000000432b33/0000000000432be6
 
 # 11 isn't recyclable.  we require m != n.  leading 0 prohibited.
 #
@@ -24,7 +25,7 @@ def len_digits(n):
     return exp
 
 
-def rotation(n, ndigits):
+def y_rotation(n, ndigits):
     x = n
     p = 10 ** (ndigits - 1)
     for i in range(ndigits):
@@ -34,12 +35,25 @@ def rotation(n, ndigits):
         x = rest + d * p
         yield x
 
-# can be sped up if we use a mark/visit scheme, and compute the triangle number of len of rotation sets.
+
+def rotation(n, ndigits, power_of_10):
+    x = n
+    result = set()
+    for i in range(ndigits):
+        d = x % 10
+        rest = x // 10
+
+        x = rest + d * power_of_10
+        result.add(x)
+    return result
+
+
 def solution(a, b):
     l = len_digits(a)
     if l < 2:
         return 0
 
+    power_of_10 = 10 ** (l - 1)
     total = 0
     values = [x for x in range(a, b + 1)]
     for i in range(a, b + 1):
@@ -47,7 +61,7 @@ def solution(a, b):
         if values[i - a] == 0:
             continue
 
-        s = set(rotation(i, l))
+        s = rotation(i, l, power_of_10)
         f = filter(lambda x: a <= x <= b and i < x, s)
 
         c = 0
@@ -57,8 +71,6 @@ def solution(a, b):
             c += 1
 
         total += (c * (c + 1)) // 2
-        # if c:
-        #     print("%s (%s, %s)" % (i, c, total))
 
     return total
 
@@ -87,6 +99,9 @@ if __name__ == '__main__':
 
 
 class MyTest(unittest.TestCase):
+    def test_time(self):
+        print(solution(1000000, 2000000))
+
     def test_ndigits(self):
         self.assertEqual(1, len_digits(0))
         self.assertEqual(1, len_digits(1))
@@ -97,16 +112,13 @@ class MyTest(unittest.TestCase):
         self.assertEqual(3, len_digits(101))
         self.assertEqual(3, len_digits(999))
 
-    def test_4(self):
-        # 1920/2019
+    def test_5(self):
+        a = 1111
+        b = 1111
+        expecting = 0
+        self.assertEqual(expecting, solution(a, b))
 
-        # 1112/1121/1211/2111
-        # 1113/1131/1311
-        # 2221/2212/2122/1222
-        # 1112 numbers in this range
-        # 9 start with 111
-        # 80 start with 11 but not 111
-        # 800 start with 1 but not 11 or 111
+    def test_4(self):
         a = 1111
         b = 2222
         expecting = 287
