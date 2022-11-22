@@ -70,13 +70,6 @@ if __name__ == '__main__':
         case_number += 1
         line = fi.readline().strip()
 
-    # n = 123456
-    # ndigits = len_digits(n)
-    # r = set(rotation(123456, ndigits))
-    # pprint(r)
-    #
-    # print(solution(1000000, 2000000))
-
 
 class MyTest(unittest.TestCase):
     def test_time(self):
