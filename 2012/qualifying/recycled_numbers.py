@@ -4,6 +4,7 @@ import fileinput
 from pprint import pprint
 import unittest
 
+
 # https://codingcompetitions.withgoogle.com/codejam/round/0000000000432b33/0000000000432be6
 
 # 11 isn't recyclable.  we require m != n.  leading 0 prohibited.
@@ -25,29 +26,6 @@ def len_digits(n):
     return exp
 
 
-def y_rotation(n, ndigits):
-    x = n
-    p = 10 ** (ndigits - 1)
-    for i in range(ndigits):
-        d = x % 10
-        rest = x // 10
-
-        x = rest + d * p
-        yield x
-
-
-def rotation(n, ndigits, power_of_10):
-    x = n
-    result = set()
-    for i in range(ndigits):
-        d = x % 10
-        rest = x // 10
-
-        x = rest + d * power_of_10
-        result.add(x)
-    return result
-
-
 def solution(a, b):
     l = len_digits(a)
     if l < 2:
@@ -61,14 +39,16 @@ def solution(a, b):
         if values[i - a] == 0:
             continue
 
-        s = rotation(i, l, power_of_10)
-        f = filter(lambda x: a <= x <= b and i < x, s)
-
+        x = i
         c = 0
-        for n in f:
-            # print(n, end=' ')
-            values[n - a] = 0
-            c += 1
+        for k in range(l):
+            digit = x % 10
+            rest = x // 10
+            x = rest + digit * power_of_10
+
+            if a <= x <= b and i < x and values[x - a] != 0:
+                values[x - a] = 0
+                c += 1
 
         total += (c * (c + 1)) // 2
 
