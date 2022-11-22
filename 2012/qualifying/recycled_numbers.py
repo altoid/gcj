@@ -37,6 +37,8 @@ def rotation(n, ndigits):
 # can be sped up if we use a mark/visit scheme, and compute the triangle number of len of rotation sets.
 def solution(a, b):
     l = len_digits(a)
+    if l < 2:
+        return 0
 
     total = 0
     values = [x for x in range(a, b + 1)]
@@ -50,7 +52,7 @@ def solution(a, b):
 
         c = 0
         for n in f:
-            #print(n, end=' ')
+            # print(n, end=' ')
             values[n - a] = 0
             c += 1
 
@@ -62,12 +64,26 @@ def solution(a, b):
 
 
 if __name__ == '__main__':
-    n = 123456
-    ndigits = len_digits(n)
-    r = set(rotation(123456, ndigits))
-    pprint(r)
+    fi = fileinput.FileInput()
 
-    print(solution(1000000, 2000000))
+    # throw away first line
+    fi.readline()
+
+    # now read the text lines
+    line = fi.readline().strip()
+    case_number = 1
+    while line:
+        a, b = map(int, line.split())
+        print("Case #%s: %s" % (case_number, solution(a, b)))
+        case_number += 1
+        line = fi.readline().strip()
+
+    # n = 123456
+    # ndigits = len_digits(n)
+    # r = set(rotation(123456, ndigits))
+    # pprint(r)
+    #
+    # print(solution(1000000, 2000000))
 
 
 class MyTest(unittest.TestCase):
