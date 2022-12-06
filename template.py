@@ -6,6 +6,11 @@ from pprint import pprint
 import fileinput
 import unittest
 
+
+def solution():
+    pass
+
+
 if __name__ == "__main__":
     fi = fileinput.FileInput()
 
