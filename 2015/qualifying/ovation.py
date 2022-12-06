@@ -42,16 +42,23 @@ if __name__ == "__main__":
 
 
 class MyTest(unittest.TestCase):
+    def test_3(self):
+        audience_str = '1'
+        expecting = 0
+        result = solution(audience_str)
+        #print(result)
+        self.assertEqual(expecting, result)
+
     def test_2(self):
         audience_str = '01020304'
         expecting = 2
         result = solution(audience_str)
-        print(result)
+        #print(result)
         self.assertEqual(expecting, result)
 
     def test_1(self):
         audience_str = '650032'
         expecting = 0
         result = solution(audience_str)
-        print(result)
+        #print(result)
         self.assertEqual(expecting, result)
