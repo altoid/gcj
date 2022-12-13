@@ -31,6 +31,10 @@ def pattern_length(pattern):
 
 
 def solution(language, pattern):
+    wordlength = len(language[0])
+    if pattern_length(pattern) != wordlength:
+        return 0
+    
     pattern = pattern.replace('(', '[').replace(')', ']')
     #pprint(pattern)
     result = 0
